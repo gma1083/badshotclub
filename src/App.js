@@ -1,6 +1,7 @@
 import './App.css';
 import React, {useState} from 'react';
-import Login from './components/login';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
 
 function App() {
 
@@ -12,11 +13,18 @@ function App() {
     setUser(user);
   }
 
+  const handleClickSignUp = () => {
+    setPage("SIGNUP");
+  }
+
   let pageToRender;
 
   switch(page) {
     case "LOGIN" :
-      pageToRender = <Login successfulLoginHandler = { successfulLoginHandler } /> 
+      pageToRender = <Login successfulLoginHandler = { successfulLoginHandler }  handleClickSignUp = {handleClickSignUp} /> 
+      break;
+    case "SIGNUP" :
+      pageToRender = <SignUp successfulLoginHandler = { successfulLoginHandler }/>
       break;
     default:
       pageToRender = <Login successfulLoginHandler = { successfulLoginHandler } />
@@ -24,7 +32,6 @@ function App() {
 
   return (
     <div className="container">
-      <h1> Welcome To the BSC Website</h1>
       { pageToRender }
       
     </div>

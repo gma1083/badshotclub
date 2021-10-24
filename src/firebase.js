@@ -2,6 +2,9 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore"
+
 
 import firebaseConfig from "./config.json"
 
@@ -14,12 +17,13 @@ import firebaseConfig from "./config.json"
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+const db = getFirestore();
 
 
 // Auth Routes  
 const auth = getAuth();
 
-export async function createUser(email, password) {
+export async function createUserAccount(email, password) {
     const user = (await createUserWithEmailAndPassword(auth, email, password)).user;
     return user;
 }
@@ -29,5 +33,11 @@ export async function signInUser(email, password) {
     return user;
 }
 
+export async function addUser({firstName, lastName, phone, email, udisc, pdga, uid}) {
 
+    await setDoc(doc(db, "users", uid), {
+        firstName, lastName, phone, email, udisc, pdga, uid
+    });
+    
+}
 
